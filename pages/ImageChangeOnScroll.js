@@ -21,8 +21,11 @@ const ImageChangeOnScroll = () => {
   useEffect(() => {
     window.document.title = `ImageId: ${currentImageId}`;
     console.log(`useEffect: setting title to ${currentImageId}`);
-  }); // we have not supplied an empty array or an array of
-  // dependencies and therefore it will run on any change in state
+  }, [currentImageId]); // now that we have set a dependency the
+  // useEffect function will only run on component mounting and
+  // a change in the currentImageId even though state is changing
+  // (setMouseEventCnt is still updating and therefore so is the page)
+  // but this function is not firing
 
   return (
     <div>
