@@ -2,6 +2,8 @@ import React from "react";
 import Home from "./Home";
 import Speakers from "./Speakers";
 
+export const ConfigContext = React.createContext();
+
 function pageToShow(pageName) {
   if (pageName === "Home") return <Home />;
   if (pageName === "Speakers") return <Speakers />;
@@ -9,7 +11,16 @@ function pageToShow(pageName) {
 }
 
 function App({ pageName }) {
-  return <div>{pageToShow(pageName)}</div>;
+  return (
+    <ConfigContext.Provider value={configValue}>
+      <div>{pageToShow(pageName)}</div>
+    </ConfigContext.Provider>
+  );
 }
+
+const configValue = {
+  showSignMeUp: false,
+  showSpeakerSpeakingDays: false,
+};
 
 export default App;
