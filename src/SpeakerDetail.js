@@ -21,8 +21,10 @@ function SpeakerDetail(details) {
       <div className="card-body">
         <h4 className="card-title">
           <button
-            data-sessionid={id}
-            className={favorite ? "heartredbutton" : "heartdarkbutton"}
+            data-session-id={id}
+            className={`heartbtn ${
+              favorite ? "heartbtn-red" : "heartbtn-dark"
+            }`}
             onClick={(e) => {
               onHeartFavoriteHandler(e, !favorite);
             }}

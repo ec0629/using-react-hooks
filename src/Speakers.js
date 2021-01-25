@@ -55,7 +55,7 @@ function Speakers() {
 
   function heartFavoriteHandler(e, favoriteValue) {
     e.preventDefault();
-    const sessionId = parseInt(e.target.attributes["data-sessionid"].value);
+    const sessionId = parseInt(e.target.dataset.sessionId);
     setSpeakerList(
       speakerList.map((item) => {
         if (item.id === sessionId) {
@@ -73,7 +73,7 @@ function Speakers() {
       <Header />
       <Menu />
       <div className="container">
-        <div className="btn-toolbar  margintopbottom5 checkbox-bigger">
+        <div className="btn-toolbar margintopbottom5 checkbox-bigger">
           <div className="hide">
             <div className="form-check-inline">
               <label className="form-check-label">
