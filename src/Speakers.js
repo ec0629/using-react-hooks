@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useReducer } from "react";
 
 import Header from "./Header";
 import Menu from "./Menu";
@@ -9,9 +9,20 @@ import { ConfigContext } from "./App";
 function Speakers() {
   const [speakingSaturday, setSpeakingSaturday] = useState(true);
   const [speakingSunday, setSpeakingSunday] = useState(true);
-  const [speakerList, setSpeakerList] = useState([]);
+  // const [speakerList, setSpeakerList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const context = useContext(ConfigContext);
+
+  function speakersReducer(state, action) {
+    switch (action.type) {
+      case "setSpeakerList": {
+        return action.data;
+      }
+      default:
+        return state;
+    }
+  }
+  const [speakerList, dispatch] = useReducer(speakersReducer, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -24,7 +35,11 @@ function Speakers() {
       const speakerListServerFilter = SpeakerData.filter(
         ({ sat, sun }) => (speakingSaturday && sat) || (speakingSunday && sun)
       );
-      setSpeakerList(speakerListServerFilter);
+      // setSpeakerList(speakerListServerFilter);
+      dispatch({
+        type: "setSpeakerList",
+        data: speakerListServerFilter,
+      });
     });
     return () => {
       console.log("cleanup");
