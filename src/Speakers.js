@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useContext, useReducer } from "react";
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useReducer,
+  useCallback,
+} from "react";
 
 import Header from "./Header";
 import Menu from "./Menu";
@@ -59,7 +65,7 @@ function Speakers() {
     setSpeakingSunday(!speakingSunday);
   }
 
-  function heartFavoriteHandler(e, favoriteValue) {
+  const heartFavoriteHandler = useCallback((e, favoriteValue) => {
     e.preventDefault();
     const sessionId = parseInt(e.target.dataset.sessionId);
 
@@ -67,7 +73,7 @@ function Speakers() {
       type: favoriteValue === true ? "favorite" : "unfavorite",
       sessionId,
     });
-  }
+  }, []);
 
   if (isLoading) return <div>Loading...</div>;
 
