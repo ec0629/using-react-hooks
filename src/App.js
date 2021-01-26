@@ -19,8 +19,8 @@ function App({ pageName }) {
 }
 
 const configValue = {
-  showSignMeUp: false,
-  showSpeakerSpeakingDays: false,
+  showSignMeUp: true,
+  showSpeakerSpeakingDays: true,
 };
 
 export default App;
