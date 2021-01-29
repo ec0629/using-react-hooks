@@ -8,7 +8,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "eslint": "eslint --init"
+    "eslint": "eslint --init",
+    "json-server": "json-server --watch db.json --port 4000 --delay 500"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "eslint": "^7.18.0",
     "eslint-plugin-react": "^7.22.0",
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "json-server": "^0.16.3"
   }
 }
