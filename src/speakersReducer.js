@@ -1,26 +1,24 @@
 function speakersReducer(state, action) {
   function updateFavorite(favoriteValue) {
-    const newState = state.map((item) => {
-      if (item.id === action.sessionId) {
+    return state.speakerList.map((item) => {
+      if (item.id === action.id) {
         return { ...item, favorite: favoriteValue };
       }
       return item;
     });
-
-    return newState;
   }
 
   switch (action.type) {
     // load data after receiving from server
     case "setSpeakerList": {
-      return action.data;
+      return { ...state, speakerList: action.data, isLoading: false };
     }
     // update heart to favorite
     case "favorite": {
-      return updateFavorite(true);
+      return { ...state, speakerList: updateFavorite(true) };
     }
     case "unfavorite": {
-      return updateFavorite(false);
+      return { ...state, speakerList: updateFavorite(false) };
     }
     default:
       return state;

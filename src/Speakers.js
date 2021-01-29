@@ -17,24 +17,22 @@ import speakersReducer from "./speakersReducer";
 function Speakers() {
   const [speakingSaturday, setSpeakingSaturday] = useState(true);
   const [speakingSunday, setSpeakingSunday] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
-  const [speakerList, dispatch] = useReducer(speakersReducer, []);
   const context = useContext(ConfigContext);
 
+  const [{ isLoading, speakerList }, dispatch] = useReducer(speakersReducer, {
+    isLoading: true,
+    speakerList: [],
+  });
+
   useEffect(() => {
-    setIsLoading(true);
     new Promise((resolve) => {
       setTimeout(() => {
         resolve();
       }, 1000);
     }).then(() => {
-      setIsLoading(false);
-      const filteredLoadedSpeakers = SpeakerData.filter(
-        ({ sat, sun }) => (speakingSaturday && sat) || (speakingSunday && sun)
-      );
       dispatch({
         type: "setSpeakerList",
-        data: filteredLoadedSpeakers,
+        data: SpeakerData,
       });
     });
     return () => {
@@ -76,7 +74,7 @@ function Speakers() {
 
     dispatch({
       type: favoriteValue === true ? "favorite" : "unfavorite",
-      sessionId,
+      id: sessionId,
     });
   }, []);
 
