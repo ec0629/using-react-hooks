@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from "react";
 import speakersReducer from "./speakersReducer";
-import SpeakerData from "./SpeakerData";
+
+const baseUrl = "http://localhost:4000";
 
 function useSpeakerDataManager() {
   const [{ isLoading, speakerList }, dispatch] = useReducer(speakersReducer, {
@@ -9,22 +10,38 @@ function useSpeakerDataManager() {
   });
 
   function toggleSpeakerFavorite(speakerRec) {
+    async function updateData(data) {
+      const resp = await fetch(`${baseUrl}/speakers/${data.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!resp.ok) {
+        throw new Error(`Request failed with status code ${resp.status}`);
+      }
+    }
+
     speakerRec.favorite === true
       ? dispatch({ type: "unfavorite", id: speakerRec.id })
       : dispatch({ type: "favorite", id: speakerRec.id });
+
+    updateData({ ...speakerRec, favorite: !speakerRec.favorite });
   }
 
   useEffect(() => {
-    new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1000);
-    }).then(() => {
-      dispatch({
-        type: "setSpeakerList",
-        data: SpeakerData,
-      });
-    });
+    async function fetchData() {
+      const resp = await fetch(`${baseUrl}/speakers`);
+      if (!resp.ok) {
+        throw new Error(`Request failed with status code ${resp.status}`);
+      }
+      const data = await resp.json();
+      dispatch({ type: "setSpeakerList", data });
+    }
+
+    fetchData();
+
     return () => {
       console.log("cleanup");
     };
