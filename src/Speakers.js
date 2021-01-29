@@ -1,44 +1,17 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useReducer,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useState, useContext, useCallback, useMemo } from "react";
 
 import Header from "./Header";
 import Menu from "./Menu";
-import SpeakerData from "./SpeakerData";
 import SpeakerDetail from "./SpeakerDetail";
+import useSpeakerDataManager from "./useSpeakerDataManager";
 import { ConfigContext } from "./App";
-import speakersReducer from "./speakersReducer";
 
 function Speakers() {
   const [speakingSaturday, setSpeakingSaturday] = useState(true);
   const [speakingSunday, setSpeakingSunday] = useState(true);
   const context = useContext(ConfigContext);
 
-  const [{ isLoading, speakerList }, dispatch] = useReducer(speakersReducer, {
-    isLoading: true,
-    speakerList: [],
-  });
-
-  useEffect(() => {
-    new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1000);
-    }).then(() => {
-      dispatch({
-        type: "setSpeakerList",
-        data: SpeakerData,
-      });
-    });
-    return () => {
-      console.log("cleanup");
-    };
-  }, []);
+  const { isLoading, speakerList, dispatch } = useSpeakerDataManager();
 
   function handleChangeSaturday() {
     setSpeakingSaturday(!speakingSaturday);
