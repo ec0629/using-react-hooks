@@ -1,15 +1,8 @@
 import React from "react";
 import ImageToggleOnScroll from "./ImageToggleOnScroll";
 
-function SpeakerDetail(details) {
-  const {
-    id,
-    firstName,
-    lastName,
-    favorite,
-    bio,
-    onHeartFavoriteHandler,
-  } = details;
+function SpeakerDetail({ speakerRec, onHeartFavoriteHandler }) {
+  const { id, firstName, lastName, favorite, bio } = speakerRec;
 
   console.log(`SpeakerDetail: ${id} ${firstName} ${lastName} ${favorite}`);
 
@@ -29,7 +22,7 @@ function SpeakerDetail(details) {
               favorite ? "heartbtn-red" : "heartbtn-dark"
             }`}
             onClick={(e) => {
-              onHeartFavoriteHandler(e, !favorite);
+              onHeartFavoriteHandler(e, speakerRec);
             }}
           />
           <span>
