@@ -1,28 +1,15 @@
-import React, { useReducer, useRef, useState } from "react";
-import useInterval from "./useInterval";
+import React from "react";
+import useEmailValidation from "./useEmailValidation";
 
 function EmailValidatingForm() {
-  const emailRef = useRef(null);
-
-  function validateEmail() {
-    return emailRef.current.validity.valid;
-  }
-
-  const [emailValid, setEmailValid] = useState(false);
-
-  function emailReducer(state, action) {
-    const isValidEmail = validateEmail();
-    setEmailValid(isValidEmail);
-    return action;
-  }
-
-  const [email, setEmail] = useReducer(emailReducer, "");
-  const maxSeconds = 30;
-  const [count, setCount] = useState(maxSeconds);
-
-  useInterval(() => {
-    setCount(count - 1);
-  }, 1000);
+  const {
+    setEmail,
+    count,
+    email,
+    emailValid,
+    setCount,
+    emailRef,
+  } = useEmailValidation(30);
 
   return (
     <div className="container">
