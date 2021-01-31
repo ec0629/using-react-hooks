@@ -1,16 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GlobalContext } from "./GlobalState";
 import ImageToggleOnScroll from "./ImageToggleOnScroll";
-import useSpeakerDataManager from "./useSpeakerDataManager";
 
 function SpeakerDetail({ speakerRec, onHeartFavoriteHandler }) {
   const { id, firstName, lastName, favorite, bio } = speakerRec;
 
   console.log(`SpeakerDetail: ${id} ${firstName} ${lastName} ${favorite}`);
 
-  const {
-    favoriteClickCount,
-    incrementFavoriteClickCount,
-  } = useSpeakerDataManager();
+  const { incrementFavoriteClickCount } = useContext(GlobalContext);
 
   return (
     <div className="card col-4 cardmin">
@@ -36,7 +33,6 @@ function SpeakerDetail({ speakerRec, onHeartFavoriteHandler }) {
             {firstName} {lastName}
           </span>
         </h4>
-        <h5>Click Count: {favoriteClickCount}</h5>
         <span>{bio}</span>
       </div>
     </div>
