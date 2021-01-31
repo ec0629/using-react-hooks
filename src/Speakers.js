@@ -3,7 +3,7 @@ import React, { useState, useContext, useCallback, useMemo } from "react";
 import Header from "./Header";
 import Menu from "./Menu";
 import SpeakerDetail from "./SpeakerDetail";
-import useSpeakerDataManager from "./useSpeakerDataManager";
+import { GlobalContext } from "./GlobalState";
 import { ConfigContext } from "./App";
 
 function Speakers() {
@@ -11,11 +11,9 @@ function Speakers() {
   const [speakingSunday, setSpeakingSunday] = useState(true);
   const context = useContext(ConfigContext);
 
-  const {
-    isLoading,
-    speakerList,
-    toggleSpeakerFavorite,
-  } = useSpeakerDataManager();
+  const { isLoading, speakerList, toggleSpeakerFavorite } = useContext(
+    GlobalContext
+  );
 
   function handleChangeSaturday() {
     setSpeakingSaturday(!speakingSaturday);
