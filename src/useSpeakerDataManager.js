@@ -4,10 +4,18 @@ import speakersReducer from "./speakersReducer";
 const baseUrl = "http://localhost:4000";
 
 function useSpeakerDataManager() {
-  const [{ isLoading, speakerList }, dispatch] = useReducer(speakersReducer, {
-    isLoading: true,
-    speakerList: [],
-  });
+  const [{ isLoading, speakerList, favoriteClickCount }, dispatch] = useReducer(
+    speakersReducer,
+    {
+      isLoading: true,
+      speakerList: [],
+      favoriteClickCount: 10,
+    }
+  );
+
+  function incrementFavoriteClickCount() {
+    dispatch({ type: "incrementFavoriteClickCount" });
+  }
 
   function toggleSpeakerFavorite(speakerRec) {
     async function updateData(data) {
@@ -47,7 +55,13 @@ function useSpeakerDataManager() {
     };
   }, []);
 
-  return { isLoading, speakerList, toggleSpeakerFavorite };
+  return {
+    isLoading,
+    speakerList,
+    toggleSpeakerFavorite,
+    favoriteClickCount,
+    incrementFavoriteClickCount,
+  };
 }
 
 export default useSpeakerDataManager;
