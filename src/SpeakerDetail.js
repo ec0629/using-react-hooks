@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "./GlobalState";
+import { FavoriteClickCountContext } from "./FavoriteClickCountContext";
 import ImageToggleOnScroll from "./ImageToggleOnScroll";
 
 function SpeakerDetail({ speakerRec, onHeartFavoriteHandler }) {
@@ -7,7 +7,7 @@ function SpeakerDetail({ speakerRec, onHeartFavoriteHandler }) {
 
   console.log(`SpeakerDetail: ${id} ${firstName} ${lastName} ${favorite}`);
 
-  const { incrementFavoriteClickCount } = useContext(GlobalContext);
+  const { incrementFavoriteClickCount } = useContext(FavoriteClickCountContext);
 
   return (
     <div className="card col-4 cardmin">
