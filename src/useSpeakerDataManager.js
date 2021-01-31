@@ -4,14 +4,16 @@ import speakersReducer from "./speakersReducer";
 const baseUrl = "http://localhost:4000";
 
 function useSpeakerDataManager() {
-  const [{ isLoading, speakerList, favoriteClickCount }, dispatch] = useReducer(
-    speakersReducer,
-    {
-      isLoading: true,
-      speakerList: [],
-      favoriteClickCount: 0,
-    }
-  );
+  const [
+    { isLoading, speakerList, favoriteClickCount, hasErrored, error },
+    dispatch,
+  ] = useReducer(speakersReducer, {
+    isLoading: true,
+    speakerList: [],
+    favoriteClickCount: 0,
+    hasErrored: false,
+    error: null,
+  });
 
   function incrementFavoriteClickCount() {
     dispatch({ type: "incrementFavoriteClickCount" });
@@ -40,12 +42,16 @@ function useSpeakerDataManager() {
 
   useEffect(() => {
     async function fetchData() {
-      const resp = await fetch(`${baseUrl}/speakers`);
-      if (!resp.ok) {
-        throw new Error(`Request failed with status code ${resp.status}`);
+      try {
+        const resp = await fetch(`${baseUrl}/speakers`);
+        if (!resp.ok) {
+          throw new Error(`Request failed with status code ${resp.status}`);
+        }
+        const data = await resp.json();
+        dispatch({ type: "setSpeakerList", data });
+      } catch (e) {
+        dispatch({ type: "errored", error: e });
       }
-      const data = await resp.json();
-      dispatch({ type: "setSpeakerList", data });
     }
 
     fetchData();
@@ -58,8 +64,10 @@ function useSpeakerDataManager() {
   return {
     isLoading,
     speakerList,
-    toggleSpeakerFavorite,
     favoriteClickCount,
+    hasErrored,
+    error,
+    toggleSpeakerFavorite,
     incrementFavoriteClickCount,
   };
 }

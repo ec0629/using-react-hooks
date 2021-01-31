@@ -11,7 +11,12 @@ function speakersReducer(state, action) {
   switch (action.type) {
     // load data after receiving from server
     case "setSpeakerList": {
-      return { ...state, speakerList: action.data, isLoading: false };
+      return {
+        ...state,
+        speakerList: action.data,
+        isLoading: false,
+        hasErrored: false,
+      };
     }
     // update heart to favorite
     case "favorite": {
@@ -22,6 +27,9 @@ function speakersReducer(state, action) {
     }
     case "incrementFavoriteClickCount": {
       return { ...state, favoriteClickCount: state.favoriteClickCount + 1 };
+    }
+    case "errored": {
+      return { ...state, hasErrored: true, error: action.error };
     }
     default:
       return state;
